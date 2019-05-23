@@ -1,34 +1,34 @@
 {
   "project_info": {
-    "project_number": "1080017845728",
-    "firebase_url": "https://obrital2019.firebaseio.com",
-    "project_id": "obrital2019",
-    "storage_bucket": "obrital2019.appspot.com"
+    "project_number": "967666052296",
+    "firebase_url": "https://login-731e2.firebaseio.com",
+    "project_id": "login-731e2",
+    "storage_bucket": "login-731e2.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1080017845728:android:174fb76caf366462",
+        "mobilesdk_app_id": "1:967666052296:android:13c3c6a65bcbec53",
         "android_client_info": {
-          "package_name": "com.example.orbital2019"
+          "package_name": "com.example.myapplication"
         }
       },
       "oauth_client": [
         {
-          "client_id": "1080017845728-onkvkt6cdf5fa86m1cssffjfuooi1p8b.apps.googleusercontent.com",
+          "client_id": "967666052296-4gbkp3mdg5slfifcqqc7kthaaih728ii.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDSSsloUQ8CWOZnYv069h0cyQhh4k_tNsY"
+          "current_key": "AIzaSyDl4Nlhs1roDSJAL7s9jXghE1yBqsHgdHQ"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "1080017845728-onkvkt6cdf5fa86m1cssffjfuooi1p8b.apps.googleusercontent.com",
+              "client_id": "967666052296-4gbkp3mdg5slfifcqqc7kthaaih728ii.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

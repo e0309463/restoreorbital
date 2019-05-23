@@ -1,4 +1,4 @@
-package com.example.orbital2019;
+package com.example.myapplication;
 
 import org.junit.Test;
 
