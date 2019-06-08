@@ -8,6 +8,7 @@ import android.view.View;
 import android.support.v7.widget.Toolbar;
 import android.widget.Button;
 import android.widget.Toast;
+import android.graphics.Color;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.mikepenz.materialdrawer.AccountHeader;
@@ -20,6 +21,15 @@ import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
+import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.components.Description;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.formatter.PercentFormatter;
+import com.github.mikephil.charting.utils.ColorTemplate;
+
+import java.util.ArrayList;
 
 public class SecondActivity extends AppCompatActivity {
 
@@ -31,7 +41,7 @@ public class SecondActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_second);
-
+        drawChart();
         firebaseAuth = FirebaseAuth.getInstance();
 
         progressDialog = new ProgressDialog(this);
@@ -60,8 +70,38 @@ public class SecondActivity extends AppCompatActivity {
                         return true;
                     }
                 })
+                
                 .build();
     }
+
+    private void drawChart() {
+        PieChart pieChart = findViewById(R.id.pieChart);
+        pieChart.setUsePercentValues(true);
+
+        ArrayList<PieEntry> yvalues = new ArrayList<PieEntry>();
+        yvalues.add(new PieEntry(8f, "Food", 0));
+        yvalues.add(new PieEntry(15f, "Transport", 1));
+        yvalues.add(new PieEntry(12f, "Bills", 2));
+        yvalues.add(new PieEntry(25f, "Misc.", 3));
+
+
+        PieDataSet dataSet = new PieDataSet(yvalues, getString(R.string.election_results));
+        PieData data = new PieData(dataSet);
+
+        data.setValueFormatter(new PercentFormatter());
+        pieChart.setData(data);
+        Description description = new Description();
+        description.setText(getString(R.string.pie_chart));
+        pieChart.setDescription(description);
+        pieChart.setDrawHoleEnabled(true);
+        pieChart.setTransparentCircleRadius(58f);
+        pieChart.setHoleRadius(58f);
+        dataSet.setColors(ColorTemplate.VORDIPLOM_COLORS);
+        data.setValueTextSize(13f);
+        data.setValueTextColor(Color.DKGRAY);
+
+    }
+
     private void Logout() {
         progressDialog.setMessage("Logging Out");
         progressDialog.show();
