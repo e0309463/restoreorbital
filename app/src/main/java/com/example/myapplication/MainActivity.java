@@ -66,12 +66,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        forgotPassword.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this,PasswordActivity.class));
-            }
-        });
+//        forgotPassword.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                startActivity(new Intent(MainActivity.this,PasswordActivity.class));
+//            }
+//        });
     }
 
     private void validate(String userName, String userPassword) {
