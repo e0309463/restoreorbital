@@ -85,20 +85,20 @@ public class SecondActivity extends AppCompatActivity {
         yvalues.add(new PieEntry(25f, "Misc.", 3));
 
 
-        PieDataSet dataSet = new PieDataSet(yvalues, getString(R.string.election_results));
+        PieDataSet dataSet = new PieDataSet(yvalues, "");
         PieData data = new PieData(dataSet);
 
         data.setValueFormatter(new PercentFormatter());
         pieChart.setData(data);
         Description description = new Description();
-        description.setText(getString(R.string.pie_chart));
+        description.setText("");
         pieChart.setDescription(description);
         pieChart.setDrawHoleEnabled(true);
         pieChart.setTransparentCircleRadius(58f);
         pieChart.setHoleRadius(58f);
         dataSet.setColors(ColorTemplate.VORDIPLOM_COLORS);
         data.setValueTextSize(13f);
-        data.setValueTextColor(Color.DKGRAY);
+        data.setValueTextColor(Color.BLACK);
 
     }
 
