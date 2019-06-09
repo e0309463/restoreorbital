@@ -30,23 +30,44 @@ import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class SecondActivity extends AppCompatActivity {
 
     Toolbar toolbar;
     private FirebaseAuth firebaseAuth;
     private ProgressDialog progressDialog;
+    private Button syncBtn;
+    private PieChart pieChart;
+    private PieDataSet dataSet;
+    private PieData data;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_second);
-        drawChart();
+        syncBtn = (Button)findViewById(R.id.syncBtn);
         firebaseAuth = FirebaseAuth.getInstance();
 
         progressDialog = new ProgressDialog(this);
 
         toolbar = (Toolbar)findViewById(R.id.toolbarMain);
+
+        pieChart = findViewById(R.id.pieChart);
+
+        drawChart(pieChart);
+
+        /**
+         * Updates the receipt history and the pie chart when the user clicks the sync button.
+         * Currently using a randomiser to randomly generate the values for each category.
+         */
+        syncBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updateChart(pieChart);
+            }
+        });
+
 
 
         //if you want to update the items at a later time it is recommended to keep it in a variable
@@ -74,19 +95,23 @@ public class SecondActivity extends AppCompatActivity {
                 .build();
     }
 
-    private void drawChart() {
-        PieChart pieChart = findViewById(R.id.pieChart);
+    private void drawChart(PieChart pieChart) {
         pieChart.setUsePercentValues(true);
 
         ArrayList<PieEntry> yvalues = new ArrayList<PieEntry>();
-        yvalues.add(new PieEntry(8f, "Food", 0));
-        yvalues.add(new PieEntry(15f, "Transport", 1));
-        yvalues.add(new PieEntry(12f, "Bills", 2));
-        yvalues.add(new PieEntry(25f, "Misc.", 3));
+        Random rand = new Random();
+        int f = rand.nextInt(20);
+        int t = rand.nextInt(25);
+        int b = rand.nextInt(30);
+        int m = rand.nextInt(25);
 
+        yvalues.add(new PieEntry(f+1, "Food", 0));
+        yvalues.add(new PieEntry(t+1, "Transport", 1));
+        yvalues.add(new PieEntry(b+1, "Bills", 2));
+        yvalues.add(new PieEntry(m+1, "Misc", 3));
 
-        PieDataSet dataSet = new PieDataSet(yvalues, "");
-        PieData data = new PieData(dataSet);
+        dataSet = new PieDataSet(yvalues, "");
+        data = new PieData(dataSet);
 
         data.setValueFormatter(new PercentFormatter());
         pieChart.setData(data);
@@ -102,6 +127,39 @@ public class SecondActivity extends AppCompatActivity {
 
     }
 
+    private void updateChart(PieChart pieChart) {
+
+        ArrayList<PieEntry> yvalues = new ArrayList<PieEntry>();
+        Random rand = new Random();
+        int f = rand.nextInt(20);
+        int t = rand.nextInt(25);
+        int b = rand.nextInt(30);
+        int m = rand.nextInt(25);
+
+        yvalues.add(new PieEntry(f+1, "Food", 0));
+        yvalues.add(new PieEntry(t+1, "Transport", 1));
+        yvalues.add(new PieEntry(b+1, "Bills", 2));
+        yvalues.add(new PieEntry(m+1, "Misc", 3));
+
+        dataSet = new PieDataSet(yvalues, "");
+        data = new PieData(dataSet);
+
+        data.setValueFormatter(new PercentFormatter());
+        data.notifyDataChanged();
+        pieChart.setData(data);
+        pieChart.notifyDataSetChanged();
+        pieChart.invalidate();
+        Description description = new Description();
+        description.setText("");
+        pieChart.setDescription(description);
+        pieChart.setDrawHoleEnabled(true);
+        pieChart.setTransparentCircleRadius(58f);
+        pieChart.setHoleRadius(58f);
+        dataSet.setColors(ColorTemplate.VORDIPLOM_COLORS);
+        data.setValueTextSize(13f);
+        data.setValueTextColor(Color.BLACK);
+
+    }
     private void Logout() {
         progressDialog.setMessage("Logging Out");
         progressDialog.show();
