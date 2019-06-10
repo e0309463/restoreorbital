@@ -79,10 +79,10 @@ public class SecondActivity extends AppCompatActivity {
         pieChart.setUsePercentValues(true);
 
         ArrayList<PieEntry> yvalues = new ArrayList<PieEntry>();
-        yvalues.add(new PieEntry(8f, "Food", 0));
-        yvalues.add(new PieEntry(15f, "Transport", 1));
-        yvalues.add(new PieEntry(12f, "Bills", 2));
-        yvalues.add(new PieEntry(25f, "Misc.", 3));
+        yvalues.add(new PieEntry(20, "Food", 0));
+        yvalues.add(new PieEntry(15, "Transport", 1));
+        yvalues.add(new PieEntry(30, "Bills", 2));
+        yvalues.add(new PieEntry(35, "Misc.", 3));
 
 
         PieDataSet dataSet = new PieDataSet(yvalues, getString(R.string.election_results));
@@ -90,9 +90,9 @@ public class SecondActivity extends AppCompatActivity {
 
         data.setValueFormatter(new PercentFormatter());
         pieChart.setData(data);
-        Description description = new Description();
-        description.setText(getString(R.string.pie_chart));
-        pieChart.setDescription(description);
+//        Description description = new Description();
+//        description.setText(getString(R.string.pie_chart));
+        pieChart.getDescription().setEnabled(false);
         pieChart.setDrawHoleEnabled(true);
         pieChart.setTransparentCircleRadius(58f);
         pieChart.setHoleRadius(58f);
