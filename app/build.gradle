@@ -35,6 +35,11 @@ dependencies {
     implementation "com.mikepenz:materialdrawer:5.3.3"
 
 
+    implementation 'com.felipecsl:gifimageview:2.1.0'
+    implementation 'commons-io:commons-io:2.4'
+
+    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.4'
+
 }
 
 apply plugin: 'com.google.gms.google-services'
