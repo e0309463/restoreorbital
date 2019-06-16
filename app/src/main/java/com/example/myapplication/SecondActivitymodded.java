@@ -17,6 +17,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.PieChart;
@@ -27,6 +28,8 @@ import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.firebase.auth.FirebaseAuth;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -41,6 +44,8 @@ public class SecondActivitymodded extends AppCompatActivity
     private PieDataSet dataSet;
     private PieData data;
     private Button syncBtn;
+    private TextView headerName;
+    private TextView headerEmail;
 
 
     @Override
@@ -73,6 +78,12 @@ public class SecondActivitymodded extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
+
+        headerName = (TextView)navigationView.getHeaderView(0).findViewById(R.id.headerName);
+        headerEmail = (TextView)navigationView.getHeaderView(0).findViewById(R.id.headerEmail);
+
+        headerName.setText(firebaseAuth.getCurrentUser().getDisplayName());
+        headerEmail.setText(firebaseAuth.getCurrentUser().getEmail());
 
 
     }
