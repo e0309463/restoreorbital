@@ -2,25 +2,23 @@ package com.example.myapplication;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.view.View;
+import android.support.v4.view.GravityCompat;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.view.MenuItem;
+import android.support.design.widget.NavigationView;
+import android.support.v4.widget.DrawerLayout;
+
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.widget.Button;
 import android.widget.Toast;
-import android.graphics.Color;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.mikepenz.materialdrawer.AccountHeader;
-import com.mikepenz.materialdrawer.AccountHeaderBuilder;
-import com.mikepenz.materialdrawer.Drawer;
-import com.mikepenz.materialdrawer.DrawerBuilder;
-import com.mikepenz.materialdrawer.model.DividerDrawerItem;
-import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
-import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
-import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
-import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
-import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.data.PieData;
@@ -28,31 +26,30 @@ import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 import java.util.Random;
 
-public class SecondActivity extends AppCompatActivity {
 
-    Toolbar toolbar;
-    private FirebaseAuth firebaseAuth;
+public class SecondActivitymodded extends AppCompatActivity
+        implements NavigationView.OnNavigationItemSelectedListener {
+
     private ProgressDialog progressDialog;
-    private Button syncBtn;
+    private FirebaseAuth firebaseAuth;
     private PieChart pieChart;
     private PieDataSet dataSet;
     private PieData data;
+    private Button syncBtn;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_second);
-        syncBtn = (Button)findViewById(R.id.syncBtn);
-        firebaseAuth = FirebaseAuth.getInstance();
-
+        setContentView(R.layout.activity_second_activitymodded);
         progressDialog = new ProgressDialog(this);
-
-        toolbar = (Toolbar)findViewById(R.id.toolbarMain);
-
+        firebaseAuth = FirebaseAuth.getInstance();
+        syncBtn = (Button)findViewById(R.id.syncBtn);
         pieChart = findViewById(R.id.pieChart);
 
         drawChart(pieChart);
@@ -67,32 +64,88 @@ public class SecondActivity extends AppCompatActivity {
                 updateChart(pieChart);
             }
         });
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+        navigationView.setNavigationItemSelectedListener(this);
 
 
+    }
 
-        //if you want to update the items at a later time it is recommended to keep it in a variable
-        PrimaryDrawerItem item1 = new PrimaryDrawerItem().withIdentifier(1).withName("Settings");
-        PrimaryDrawerItem item2 = new PrimaryDrawerItem().withIdentifier(2).withName("Logout");
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
 
-//create the drawer and remember the `Drawer` result object
-        Drawer result = new DrawerBuilder()
-                .withActivity(this)
-                .withToolbar(toolbar)
-                .addDrawerItems(
-                        item1,item2
-                )
-                .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
-                    @Override
-                    public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-                        switch(position) {
-                            case 1:
-                            case 2: Logout();
-                        }
-                        return true;
-                    }
-                })
-                
-                .build();
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.second_activitymodded, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
+
+        if (id == R.id.nav_home) {
+            // Handle the camera action
+        } else if (id == R.id.nav_home) {
+
+        } else if (id == R.id.nav_bills) {
+
+        } else if (id == R.id.nav_food) {
+
+        } else if (id == R.id.nav_food) {
+
+        } else if (id == R.id.nav_misc) {
+
+        } else if (id == R.id.nav_transport) {
+
+        } else if (id == R.id.nav_logout) {
+            Logout();
+        }
+
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+    private void Logout() {
+        progressDialog.setMessage("Logging Out");
+        progressDialog.show();
+        firebaseAuth.signOut();
+        finish();
+        progressDialog.dismiss();
+        Toast.makeText(SecondActivitymodded.this,"Logout Successful", Toast.LENGTH_SHORT).show();
+        startActivity(new Intent(SecondActivitymodded.this,MainActivity.class));
     }
 
     private void drawChart(PieChart pieChart) {
@@ -159,14 +212,5 @@ public class SecondActivity extends AppCompatActivity {
         data.setValueTextSize(13f);
         data.setValueTextColor(Color.BLACK);
 
-    }
-    private void Logout() {
-        progressDialog.setMessage("Logging Out");
-        progressDialog.show();
-        firebaseAuth.signOut();
-        finish();
-        progressDialog.dismiss();
-        Toast.makeText(SecondActivity.this,"Logout Successful", Toast.LENGTH_SHORT).show();
-        startActivity(new Intent(SecondActivity.this,MainActivity.class));
     }
 }

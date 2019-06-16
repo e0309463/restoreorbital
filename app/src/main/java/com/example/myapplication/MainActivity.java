@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
 
         if(user != null) {
             finish();
-            startActivity(new Intent(MainActivity.this, SecondActivity.class));
+            startActivity(new Intent(MainActivity.this, SecondActivitymodded.class));
         }
 
         Login.setOnClickListener(new View.OnClickListener() {
@@ -66,12 +66,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-//        forgotPassword.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                startActivity(new Intent(MainActivity.this,PasswordActivity.class));
-//            }
-//        });
+        forgotPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this,PasswordActivity.class));
+            }
+       });
     }
 
     private void validate(String userName, String userPassword) {
@@ -102,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
         if(emailflag) {
             finish();
             Toast.makeText(MainActivity.this,"Login Successful", Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(MainActivity.this, SecondActivity.class));
+            startActivity(new Intent(MainActivity.this, SecondActivitymodded.class));
         } else {
             Toast.makeText(this, "Verify your email", Toast.LENGTH_SHORT).show();
             firebaseAuth.signOut();
