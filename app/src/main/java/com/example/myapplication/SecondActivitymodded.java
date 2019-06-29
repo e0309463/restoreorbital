@@ -54,10 +54,13 @@ public class SecondActivitymodded extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_second_activitymodded);
+        setTitle("RESTORE");
         progressDialog = new ProgressDialog(this);
         firebaseAuth = FirebaseAuth.getInstance();
         syncBtn = (Button)findViewById(R.id.syncBtn);
         pieChart = findViewById(R.id.pieChart);
+        pieChart.setDrawHoleEnabled(true);
+        pieChart.setHoleColor(this.getResources().getColor(R.color.colorTransparent));
         drawChart(pieChart);
 
         /**
@@ -197,6 +200,7 @@ TransportFragment transportfragment = null;
         dataSet = new PieDataSet(yvalues, "");
         data = new PieData(dataSet);
 
+        pieChart.setEntryLabelColor(this.getResources().getColor(R.color.colorDarkBlue));
         data.setValueFormatter(new PercentFormatter());
         pieChart.setData(data);
         Description description = new Description();
@@ -205,9 +209,17 @@ TransportFragment transportfragment = null;
         pieChart.setDrawHoleEnabled(true);
         pieChart.setTransparentCircleRadius(58f);
         pieChart.setHoleRadius(58f);
-        dataSet.setColors(ColorTemplate.VORDIPLOM_COLORS);
+        int[] colors = {
+                this.getResources().getColor(R.color.colorLightBlue),
+                this.getResources().getColor(R.color.colorMedBlue),
+                this.getResources().getColor(R.color.colorIntenseBlue),
+                this.getResources().getColor(R.color.colorGrey)
+        };
+        dataSet.setColors(colors);
+        //dataSet.setColors(ColorTemplate.VORDIPLOM_COLORS);
         data.setValueTextSize(13f);
-        data.setValueTextColor(Color.BLACK);
+        data.setValueTextColor(this.getResources().getColor(R.color.colorDarkBlue));
+        pieChart.getLegend().setEnabled(false);
 
     }
 
@@ -239,7 +251,13 @@ TransportFragment transportfragment = null;
         pieChart.setDrawHoleEnabled(true);
         pieChart.setTransparentCircleRadius(58f);
         pieChart.setHoleRadius(58f);
-        dataSet.setColors(ColorTemplate.VORDIPLOM_COLORS);
+        int[] colors = {
+                this.getResources().getColor(R.color.colorLightBlue),
+                this.getResources().getColor(R.color.colorMedBlue),
+                this.getResources().getColor(R.color.colorIntenseBlue),
+                this.getResources().getColor(R.color.colorGrey)
+        };
+        dataSet.setColors(colors);
         data.setValueTextSize(13f);
         data.setValueTextColor(Color.BLACK);
 
