@@ -6,6 +6,9 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.support.v4.view.GravityCompat;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -47,7 +50,6 @@ public class SecondActivitymodded extends AppCompatActivity
     private TextView headerName;
     private TextView headerEmail;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,7 +58,6 @@ public class SecondActivitymodded extends AppCompatActivity
         firebaseAuth = FirebaseAuth.getInstance();
         syncBtn = (Button)findViewById(R.id.syncBtn);
         pieChart = findViewById(R.id.pieChart);
-
         drawChart(pieChart);
 
         /**
@@ -71,6 +72,13 @@ public class SecondActivitymodded extends AppCompatActivity
         });
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        if (savedInstanceState == null) {
+            Fragment newFragment = new BillFragment();
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.add(R.id.linearLayout2, newFragment);
+            ft.addToBackStack(null);
+            ft.commit();
+        }
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -123,27 +131,39 @@ public class SecondActivitymodded extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
+BillFragment billfragment = null;
+FoodFragment foodfragment = null;
+MiscFragment miscfragment = null;
+TransportFragment transportfragment = null;
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
         if (id == R.id.nav_home) {
             // Handle the camera action
-        } else if (id == R.id.nav_home) {
-
-        } else if (id == R.id.nav_bills) {
-
+        }else if (id == R.id.nav_bills) {
+            billfragment = new BillFragment();
+            FragmentManager manager = getSupportFragmentManager();
+            manager.beginTransaction().replace(R.id.drawer_layout,billfragment, billfragment.getTag()).addToBackStack(null).commit();
         } else if (id == R.id.nav_food) {
-
-        } else if (id == R.id.nav_food) {
-
+            foodfragment = new FoodFragment();
+            FragmentManager manager = getSupportFragmentManager();
+            manager.beginTransaction().replace(R.id.drawer_layout,foodfragment, foodfragment.getTag()).addToBackStack(null).commit();
         } else if (id == R.id.nav_misc) {
-
+            miscfragment = new MiscFragment();
+            FragmentManager manager = getSupportFragmentManager();
+            manager.beginTransaction().replace(R.id.drawer_layout,miscfragment, miscfragment.getTag()).addToBackStack(null).commit();
         } else if (id == R.id.nav_transport) {
-
+            transportfragment = new TransportFragment();
+            FragmentManager manager = getSupportFragmentManager();
+            manager.beginTransaction().replace(R.id.drawer_layout,transportfragment, transportfragment.getTag()).addToBackStack(null).commit();
         } else if (id == R.id.nav_logout) {
             Logout();
         }
-
+        /*if (fragment != null) {
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.replace(R.id.linearLayout2, fragment);
+            ft.commit();
+        }*/
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
