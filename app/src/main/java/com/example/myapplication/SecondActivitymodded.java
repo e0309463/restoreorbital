@@ -49,6 +49,11 @@ public class SecondActivitymodded extends AppCompatActivity
     private Button syncBtn;
     private TextView headerName;
     private TextView headerEmail;
+    static float billsExpend;
+    static float transportExpend;
+    static float miscExpend;
+    static float foodExpend;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -183,19 +188,23 @@ TransportFragment transportfragment = null;
     }
 
     private void drawChart(PieChart pieChart) {
-        pieChart.setUsePercentValues(true);
+        pieChart.setUsePercentValues(false);
 
         ArrayList<PieEntry> yvalues = new ArrayList<PieEntry>();
         Random rand = new Random();
         int f = rand.nextInt(20);
+        foodExpend = f;
         int t = rand.nextInt(25);
+        transportExpend = t;
         int b = rand.nextInt(30);
+        billsExpend = b;
         int m = rand.nextInt(25);
+        miscExpend = m;
 
-        yvalues.add(new PieEntry(f+1, "Food", 0));
-        yvalues.add(new PieEntry(t+1, "Transport", 1));
-        yvalues.add(new PieEntry(b+1, "Bills", 2));
-        yvalues.add(new PieEntry(m+1, "Misc", 3));
+        yvalues.add(new PieEntry(f, "Food", 0));
+        yvalues.add(new PieEntry(t, "Transport", 1));
+        yvalues.add(new PieEntry(b, "Bills", 2));
+        yvalues.add(new PieEntry(m, "Misc", 3));
 
         dataSet = new PieDataSet(yvalues, "");
         data = new PieData(dataSet);
@@ -224,18 +233,23 @@ TransportFragment transportfragment = null;
     }
 
     private void updateChart(PieChart pieChart) {
+        pieChart.setUsePercentValues(false);
 
         ArrayList<PieEntry> yvalues = new ArrayList<PieEntry>();
         Random rand = new Random();
         int f = rand.nextInt(20);
+        foodExpend = f;
         int t = rand.nextInt(25);
+        transportExpend = t;
         int b = rand.nextInt(30);
+        billsExpend = b;
         int m = rand.nextInt(25);
+        miscExpend = m;
 
-        yvalues.add(new PieEntry(f+1, "Food", 0));
-        yvalues.add(new PieEntry(t+1, "Transport", 1));
-        yvalues.add(new PieEntry(b+1, "Bills", 2));
-        yvalues.add(new PieEntry(m+1, "Misc", 3));
+        yvalues.add(new PieEntry(f, "Food", 0));
+        yvalues.add(new PieEntry(t, "Transport", 1));
+        yvalues.add(new PieEntry(b, "Bills", 2));
+        yvalues.add(new PieEntry(m, "Misc", 3));
 
         dataSet = new PieDataSet(yvalues, "");
         data = new PieData(dataSet);
@@ -262,4 +276,10 @@ TransportFragment transportfragment = null;
         data.setValueTextColor(Color.BLACK);
 
     }
+
+    public static float getBillsExpend() {
+        return billsExpend;
+    }
+
+
 }
