@@ -49,7 +49,7 @@ public class SecondActivitymodded extends AppCompatActivity
     private PieData data;
     private Button syncBtn;
     private TextView headerName;
-    private TextView headerEmail;
+    public static TextView headerEmail;
     static float billsExpend;
     static float transportExpend;
     static float miscExpend;
@@ -59,6 +59,8 @@ public class SecondActivitymodded extends AppCompatActivity
     private String clientSecret = "57ac89db-ea47-4fc4-a122-0295063fd211";
     private String redirectUri = "http://www.example.com/restoreorbital111";
 
+    Button scan_btn;
+    public static TextView resultTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,6 +113,15 @@ public class SecondActivitymodded extends AppCompatActivity
         headerName.setText(firebaseAuth.getCurrentUser().getDisplayName());
         headerEmail.setText(firebaseAuth.getCurrentUser().getEmail());
 
+        resultTextView = (TextView)findViewById(R.id.result_text);
+        scan_btn = (Button)findViewById(R.id.btn_scan);
+
+        scan_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public  void onClick(View view){
+               startActivity(new Intent(getApplicationContext(),ScanCodeActivity.class));
+            }
+        });
 
     }
 
