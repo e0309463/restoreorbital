@@ -58,6 +58,7 @@ public class BillFragment extends Fragment {
             result = "You have used up exactly all your budget!";
         }
 
+        resultTv.setText(result);
 
     }
 

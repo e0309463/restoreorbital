@@ -18,7 +18,19 @@
         <activity
             android:name=".SecondActivitymodded"
             android:label="@string/title_activity_second_activitymodded"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <!-- Accepts URIs that begin with "http://www.example.com/gizmos” -->
+                <data android:scheme="http"
+                    android:host="www.example.com"
+                    android:pathPrefix="/restoreorbital111" />
+                <!-- note that the leading "/" is required for pathPrefix-->
+            </intent-filter>
+
+        </activity>
         <activity android:name=".MainActivity" />
         <activity
             android:name=".PasswordActivity"
@@ -27,18 +39,7 @@
         <activity android:name=".SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data
-                    android:host="callback"
-                    android:scheme="rest" />
             </intent-filter>
         </activity>
 

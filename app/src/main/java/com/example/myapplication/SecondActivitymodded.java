@@ -3,6 +3,7 @@ package com.example.myapplication;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -53,6 +54,11 @@ public class SecondActivitymodded extends AppCompatActivity
     static float transportExpend;
     static float miscExpend;
     static float foodExpend;
+
+    private String clientId = "dd35d1dd-1c3a-4233-b25a-6ee6c5e9a70c";
+    private String clientSecret = "57ac89db-ea47-4fc4-a122-0295063fd211";
+    private String redirectUri = "http://www.example.com/restoreorbital111";
+
     Button scan_btn;
     public static TextView resultTextView;
 
@@ -76,9 +82,14 @@ public class SecondActivitymodded extends AppCompatActivity
         syncBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                updateChart(pieChart);
+                //updateChart(pieChart);
+                //startActivity(new Intent(SecondActivitymodded.this,Oauth.class));
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.dbs.com/sandbox/api/sg/v1/oauth/authorize" + "?client_id=" + clientId + "&redirect_uri=" + redirectUri + "&scope=Read&response_type=code&state=0399"));
+                startActivity(intent);
             }
         });
+
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         if (savedInstanceState == null) {
@@ -114,6 +125,19 @@ public class SecondActivitymodded extends AppCompatActivity
 
     }
 
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        Uri uri = getIntent().getData();
+        if(uri != null && uri.toString().startsWith(redirectUri)) {
+            String code = uri.getQueryParameter("code");
+
+            Toast.makeText(this, "yay!", Toast.LENGTH_SHORT).show();
+        }
+
+    }
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
