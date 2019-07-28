@@ -24,7 +24,7 @@
             android:title = "Miscellaneous"
             android:icon="@drawable/misc"
             />
-        <item android:id="@+id/nav_changeExpenditure"
+        <item android:id="@+id/nav_expenditure"
             android:title ="Change Expenditure"
             />
     </group>

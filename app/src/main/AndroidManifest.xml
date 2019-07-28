@@ -12,7 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ScanCodeActivity"></activity>
+        <activity android:name=".ExpenditureAllocation"></activity>
+        <activity android:name=".ScanCodeActivity" />
         <activity android:name=".Oauth" />
         <activity android:name=".Carousel" />
         <activity
@@ -21,15 +22,16 @@
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <!-- Accepts URIs that begin with "http://www.example.com/gizmos” -->
-                <data android:scheme="http"
+                <data
                     android:host="www.example.com"
-                    android:pathPrefix="/restoreorbital111" />
-                <!-- note that the leading "/" is required for pathPrefix-->
+                    android:pathPrefix="/restoreorbital111"
+                    android:scheme="http" />
+                <!-- note that the leading "/" is required for pathPrefix -->
             </intent-filter>
-
         </activity>
         <activity android:name=".MainActivity" />
         <activity
@@ -39,6 +41,7 @@
         <activity android:name=".SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

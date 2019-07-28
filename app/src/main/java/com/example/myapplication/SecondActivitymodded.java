@@ -57,7 +57,7 @@ public class SecondActivitymodded extends AppCompatActivity
     static float transportExpend;
     static float miscExpend;
     static float foodExpend;
-
+    private Button budgetAllocation;
     private String clientId = "dd35d1dd-1c3a-4233-b25a-6ee6c5e9a70c";
     private String clientSecret = "57ac89db-ea47-4fc4-a122-0295063fd211";
     private String redirectUri = "http://www.example.com/restoreorbital111";
@@ -93,7 +93,14 @@ public class SecondActivitymodded extends AppCompatActivity
         pieChart.setDrawHoleEnabled(true);
         pieChart.setHoleColor(this.getResources().getColor(R.color.colorTransparent));
         drawChart(pieChart);
+        budgetAllocation = (Button)findViewById(R.id.changeBudget);
+        budgetAllocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(SecondActivitymodded.this, ExpenditureAllocation.class));
 
+            }
+        });
         /**
          * Updates the receipt history and the pie chart when the user clicks the sync button.
          * Currently using a randomiser to randomly generate the values for each category.
@@ -267,7 +274,6 @@ BillFragment billfragment = null;
 FoodFragment foodfragment = null;
 MiscFragment miscfragment = null;
 TransportFragment transportfragment = null;
-ExpenditureFragment exfragment = null;
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
@@ -289,10 +295,7 @@ ExpenditureFragment exfragment = null;
             transportfragment = new TransportFragment();
             FragmentManager manager = getSupportFragmentManager();
             manager.beginTransaction().replace(R.id.drawer_layout, transportfragment, transportfragment.getTag()).addToBackStack(null).commit();
-        } else if (id == R.id.nav_changeExpenditure) {
-            exfragment = new ExpenditureFragment();
-            FragmentManager manager = getSupportFragmentManager();
-            manager.beginTransaction().replace(R.id.drawer_layout, exfragment, exfragment.getTag()).addToBackStack(null).commit();
+
         } else if (id == R.id.nav_logout) {
             Logout();
         }
