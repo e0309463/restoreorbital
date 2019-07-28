@@ -43,6 +43,7 @@ public class TransportFragment extends Fragment {
     ArrayAdapter<String> adapter;
     User user;
     float billsExpend ;
+    public static float transportBudgetDollar = 50;
 
 
     @Override
@@ -76,7 +77,7 @@ public class TransportFragment extends Fragment {
                 listView.setAdapter(adapter);
                 String BE = "$" + billsExpend + "";
                 billsExpenditureNumber.setText(BE);
-                float billsBudget = 50;
+                float billsBudget = transportBudgetDollar;
                 String BB ="$" + billsBudget + "";
                 billsBudgetNumber.setText(BB);
                 String result = "";

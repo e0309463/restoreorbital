@@ -4,7 +4,6 @@ package com.example.myapplication;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,6 +43,7 @@ public class FoodFragment extends Fragment {
     ArrayAdapter<String> adapter;
     User user;
     float billsExpend ;
+    public static float foodBudgetDollar = 0;
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
@@ -77,7 +77,7 @@ public class FoodFragment extends Fragment {
                 listView.setAdapter(adapter);
                 String BE = "$" + billsExpend + "";
                 billsExpenditureNumber.setText(BE);
-                float billsBudget = 50;
+                float billsBudget = foodBudgetDollar;
                 String BB ="$" + billsBudget + "";
                 billsBudgetNumber.setText(BB);
                 String result = "";

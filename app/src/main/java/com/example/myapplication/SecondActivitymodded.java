@@ -267,6 +267,7 @@ BillFragment billfragment = null;
 FoodFragment foodfragment = null;
 MiscFragment miscfragment = null;
 TransportFragment transportfragment = null;
+ExpenditureFragment exfragment = null;
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
@@ -287,7 +288,11 @@ TransportFragment transportfragment = null;
         } else if (id == R.id.nav_transport) {
             transportfragment = new TransportFragment();
             FragmentManager manager = getSupportFragmentManager();
-            manager.beginTransaction().replace(R.id.drawer_layout,transportfragment, transportfragment.getTag()).addToBackStack(null).commit();
+            manager.beginTransaction().replace(R.id.drawer_layout, transportfragment, transportfragment.getTag()).addToBackStack(null).commit();
+        } else if (id == R.id.nav_changeExpenditure) {
+            exfragment = new ExpenditureFragment();
+            FragmentManager manager = getSupportFragmentManager();
+            manager.beginTransaction().replace(R.id.drawer_layout, exfragment, exfragment.getTag()).addToBackStack(null).commit();
         } else if (id == R.id.nav_logout) {
             Logout();
         }

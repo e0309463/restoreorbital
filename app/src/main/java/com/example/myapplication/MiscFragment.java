@@ -44,6 +44,7 @@ public class MiscFragment extends Fragment {
     ArrayAdapter<String> adapter;
     User user;
     float billsExpend ;
+    public static float miscBudgetDollar = 50;
 
 
     @Override
@@ -77,7 +78,7 @@ public class MiscFragment extends Fragment {
                 listView.setAdapter(adapter);
                 String BE = "$" + billsExpend + "";
                 billsExpenditureNumber.setText(BE);
-                float billsBudget = 50;
+                float billsBudget = miscBudgetDollar;
                 String BB ="$" + billsBudget + "";
                 billsBudgetNumber.setText(BB);
                 String result = "";

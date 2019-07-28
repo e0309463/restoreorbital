@@ -3,9 +3,7 @@ package com.example.myapplication;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +13,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -46,6 +43,7 @@ public class BillFragment extends Fragment {
     ArrayAdapter<String> adapter;
     User user;
     float billsExpend ;
+    public static float billsBudgetDollar = 50;
 
 
     @Override
@@ -80,7 +78,7 @@ public class BillFragment extends Fragment {
                 listView.setAdapter(adapter);
                 String BE = "$" + billsExpend + "";
                 billsExpenditureNumber.setText(BE);
-                float billsBudget = 50;
+                float billsBudget = billsBudgetDollar;
                 String BB ="$" + billsBudget + "";
                 billsBudgetNumber.setText(BB);
                 String result = "";
