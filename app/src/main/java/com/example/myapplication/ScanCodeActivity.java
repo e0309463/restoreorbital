@@ -28,8 +28,6 @@ public class ScanCodeActivity extends AppCompatActivity implements ZXingScannerV
         ScannerView = new ZXingScannerView(this);
         setContentView(ScannerView);
 
-
-
     }
 
     @Override
