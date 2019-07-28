@@ -2,16 +2,27 @@ package com.example.myapplication;
 
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
+import android.widget.ListView;
 import android.widget.TextView;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 
 
 /**
@@ -24,6 +35,15 @@ public class FoodFragment extends Fragment {
     private TextView billsExpenditureNumber;
     private TextView billsBudgetNumber;
     private TextView resultTv;
+    private FirebaseAuth firebaseAuth;
+    public static float foodtotal;
+    DatabaseReference ref;
+    FirebaseDatabase database;
+    ListView listView;
+    ArrayList<String> list;
+    ArrayAdapter<String> adapter;
+    User user;
+    float billsExpend ;
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
@@ -35,30 +55,50 @@ public class FoodFragment extends Fragment {
             }
         });
 
-        info = (TextView) view.findViewById(R.id.tvbillsInfo);
-        info.setMovementMethod(new ScrollingMovementMethod());
+
         billsBudgetNumber = (TextView)view.findViewById(R.id.tvBillBudgetNumber);
         billsExpenditureNumber = (TextView)view.findViewById(R.id.tvBillExpenditureNumber);
-        info = (TextView)view.findViewById(R.id.tvbillsInfo);
         resultTv = (TextView)view.findViewById(R.id.tvAnalysis);
-        float billsExpend = SecondActivitymodded.getBillsExpend();
-        String BE = "$" + billsExpend + "";
-        billsExpenditureNumber.setText(BE);
-        float billsBudget = 40;
-        String BB ="$" + billsBudget + "";
-        billsBudgetNumber.setText(BB);
-        String result = "";
-        DecimalFormat df = new DecimalFormat("##.##");
-        df.setRoundingMode(RoundingMode.DOWN);
-        if (billsExpend < billsBudget) {
-            result = "You still have "  + df.format((1 - billsExpend/billsBudget)*100 )+ "% of your budget to spend!";
-        } else if (billsExpend > billsBudget){
-            result = "You have exceeded your budget by " + df.format(((billsExpend/billsBudget)-1) * 100) + "%!";
-        } else {
-            result = "You have used up exactly all your budget!";
-        }
+        user = new User();
+        listView = view.findViewById(R.id.listView);
+        database = FirebaseDatabase.getInstance();
+        ref = (database).getReference(firebaseAuth.getInstance().getCurrentUser().getUid()).child("food");
+        list = new ArrayList<>();
+        adapter= new ArrayAdapter<String>(getContext(),R.layout.product_info,R.id.productinfo,list);
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for(DataSnapshot ds: dataSnapshot.getChildren()){
 
-        resultTv.setText(result);
+                    user = ds.getValue(User.class);
+                    billsExpend += Float.parseFloat(user.getPrice().substring(1));
+                    list.add("Item: "+user.getProductName() + "   Price: "+user.getPrice() + "   Date: " + user.getDate());
+                }
+                listView.setAdapter(adapter);
+                String BE = "$" + billsExpend + "";
+                billsExpenditureNumber.setText(BE);
+                float billsBudget = 50;
+                String BB ="$" + billsBudget + "";
+                billsBudgetNumber.setText(BB);
+                String result = "";
+                DecimalFormat df = new DecimalFormat("##.##");
+                df.setRoundingMode(RoundingMode.DOWN);
+                if (billsExpend < billsBudget) {
+                    result = "You still have "  + df.format((1 - billsExpend/billsBudget)*100 )+ "% of your budget to spend!";
+                } else if (billsExpend > billsBudget){
+                    result = "You have exceeded your budget by " + df.format(((billsExpend/billsBudget)-1) * 100) + "%!";
+                } else {
+                    result = "You have used up exactly all your budget!";
+                }
+                foodtotal = billsExpend;
+                resultTv.setText(result);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
     }
 

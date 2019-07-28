@@ -82,10 +82,10 @@ public class SecondActivitymodded extends AppCompatActivity
         syncBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //updateChart(pieChart);
+                updateChart(pieChart);
                 //startActivity(new Intent(SecondActivitymodded.this,Oauth.class));
                 Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.dbs.com/sandbox/api/sg/v1/oauth/authorize" + "?client_id=" + clientId + "&redirect_uri=" + redirectUri + "&scope=Read&response_type=code&state=0399"));
-                startActivity(intent);
+                //startActivity(intent);
             }
         });
 
@@ -113,7 +113,6 @@ public class SecondActivitymodded extends AppCompatActivity
         headerName.setText(firebaseAuth.getCurrentUser().getDisplayName());
         headerEmail.setText(firebaseAuth.getCurrentUser().getEmail());
 
-        resultTextView = (TextView)findViewById(R.id.result_text);
         scan_btn = (Button)findViewById(R.id.btn_scan);
 
         scan_btn.setOnClickListener(new View.OnClickListener() {
@@ -222,17 +221,17 @@ TransportFragment transportfragment = null;
     }
 
     private void drawChart(PieChart pieChart) {
-        pieChart.setUsePercentValues(false);
+        pieChart.setUsePercentValues(true);
 
         ArrayList<PieEntry> yvalues = new ArrayList<PieEntry>();
         Random rand = new Random();
-        int f = rand.nextInt(20);
+        float f = FoodFragment.foodtotal;
         foodExpend = f;
-        int t = rand.nextInt(25);
+        float t = TransportFragment.transporttotal;
         transportExpend = t;
-        int b = rand.nextInt(30);
+        float b = BillFragment.billtotal;
         billsExpend = b;
-        int m = rand.nextInt(25);
+        float m = MiscFragment.misctotal;
         miscExpend = m;
 
         yvalues.add(new PieEntry(f, "Food", 0));
@@ -267,17 +266,17 @@ TransportFragment transportfragment = null;
     }
 
     private void updateChart(PieChart pieChart) {
-        pieChart.setUsePercentValues(false);
+        pieChart.setUsePercentValues(true);
 
         ArrayList<PieEntry> yvalues = new ArrayList<PieEntry>();
         Random rand = new Random();
-        int f = rand.nextInt(20);
+        float f = FoodFragment.foodtotal;
         foodExpend = f;
-        int t = rand.nextInt(25);
+        float t = TransportFragment.transporttotal;
         transportExpend = t;
-        int b = rand.nextInt(30);
+        float b = BillFragment.billtotal;
         billsExpend = b;
-        int m = rand.nextInt(25);
+        float m = MiscFragment.misctotal;
         miscExpend = m;
 
         yvalues.add(new PieEntry(f, "Food", 0));

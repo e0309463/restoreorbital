@@ -92,21 +92,4 @@
         app:layout_constraintTop_toBottomOf="@+id/syncBtn"
         app:layout_constraintVertical_bias="0.0" />
 
-    <TextView
-        android:id="@+id/result_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="Results"
-        android:textColor="#FDFFFFFF"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="@+id/linearLayout2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.508"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/syncBtn"
-        app:layout_constraintVertical_bias="0.682" />
-
 </android.support.constraint.ConstraintLayout>

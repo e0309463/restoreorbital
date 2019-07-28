@@ -49,12 +49,13 @@ public class ScanCodeActivity extends AppCompatActivity implements ZXingScannerV
         else{
             userid = "-";
         }
-        reff = FirebaseDatabase.getInstance().getReference().child(userid);
-        user.setDate(userid);
+        reff = FirebaseDatabase.getInstance().getReference();
+        user.setDate(date);
         user.setCategory(category);
         user.setProductName(productName);
         user.setPrice(price);
-        reff.push().setValue(user);
+        reff.child(userid).child(category).child(productName).setValue(user);
+        Toast.makeText(ScanCodeActivity.this,"Scanned",Toast.LENGTH_LONG).show();
         onBackPressed();
 
     }
