@@ -16,6 +16,9 @@ public class OAuthToken {
     @SerializedName("refresh_token")
     @Expose
     private String refreshToken;
+    @SerializedName("party_id")
+    @Expose
+    private String partyId;
 
     public String getAccessToken() {
         return accessToken;
@@ -45,7 +48,13 @@ public class OAuthToken {
         return refreshToken;
     }
 
-    public void setRefreshToken(String refreshToken) {
-        this.refreshToken = refreshToken;
+    public void setRefreshToken(String refreshToken) {this.refreshToken = refreshToken;
+
     }
-}
+    public String getPartyId() {
+        return partyId;
+    }
+
+    public void setPartyId(String partyId) { this.partyId = partyId;}
+
+    }

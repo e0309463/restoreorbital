@@ -6,9 +6,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
+import retrofit2.http.GET;
 
 public class OAuthServer {
-    private static final String siteURL = "https://www.googleapis.com/";
+    private static final String siteURL = "https://www.dbs.com/sandbox/api/sg/v1";
     private static String code = SecondActivitymodded.Authcode;
 
     public static OAuthServerIntface oAuthServerIntface = null;
@@ -36,13 +37,14 @@ public class OAuthServer {
          * The call to request a token
          */
 
-        @POST("oauth2/v4/token")
+        @POST("oauth/tokens")
         @FormUrlEncoded
         Call<OAuthToken> getAccessToken(
+                @Field("Authorization") String Authorization,
                 @Field("code") String code,
-                @Field("client_id") String client_id,
                 @Field("redirect_uri") String redirect_uri,
                 @Field("grant_type") String grant_type
+
         );
 
     }

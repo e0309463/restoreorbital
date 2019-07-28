@@ -17,6 +17,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Base64;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -66,16 +67,17 @@ public class SecondActivitymodded extends AppCompatActivity
     private static final String OAUTH_SCOPE = "https://www.googleapis.com/auth/webmasters";
     private static final String CODE = "code";
     static final String CLIENT_ID = "dd35d1dd-1c3a-4233-b25a-6ee6c5e9a70c";
-    private static final String REDIRECT_URI = "http://www.example.com/restoreorbital111";
+    private static final String redirect_uri = "http://www.example.com/restoreorbital111";
 
     //Authorization
-    static String AUTHORIZATION_CODE;
-    private static final String GRANT_TYPE = "authorization_code";
+    static String code;
+    static String Authorization;
+    private static final String grant_type = "token";
 
     //Response
     static String Authcode;
     static String Tokentype;
-    static String Refreshtoken;
+    static String Refreshtoken, partyID;
     static Long Expiresin, ExpiryTime;
 
     Button scan_btn;
@@ -157,27 +159,28 @@ public class SecondActivitymodded extends AppCompatActivity
 
         Uri uri = getIntent().getData();
         if (uri != null && !TextUtils.isEmpty(uri.getScheme())){
-            String code = uri.getQueryParameter(CODE);
+            String code1 = uri.getQueryParameter(CODE);
 
-            if (!TextUtils.isEmpty(code)) {
+            if (!TextUtils.isEmpty(code1)) {
 
                 //Success Toast
                 Toast.makeText(SecondActivitymodded.this, "success",Toast.LENGTH_LONG).show();
-                AUTHORIZATION_CODE = code;
+                code = code1;
 
                 // Using Retrofit builder getting Authorization code
                 Retrofit.Builder builder = new Retrofit.Builder()
-                        .baseUrl("https://www.dbs.com/sandbox/api/sg/v1/oauth/tokens")
+                        .baseUrl("https://www.dbs.com/sandbox/api/sg/v1/")
                         .addConverterFactory(GsonConverterFactory.create());
 
                 Retrofit retrofit = builder.build();
-
+                Authorization = new String (Base64.encode((clientId+":"+clientSecret).getBytes(),Base64.DEFAULT));
                 OAuthServer.OAuthServerIntface oAuthServerIntface = retrofit.create(OAuthServer.OAuthServerIntface.class);
                 final Call<OAuthToken> accessTokenCall = oAuthServerIntface.getAccessToken(
-                        AUTHORIZATION_CODE,
-                        CLIENT_ID,
-                        REDIRECT_URI,
-                        GRANT_TYPE
+                        Authorization,
+                        code,
+                        redirect_uri,
+                        grant_type
+
                 );
 
                 accessTokenCall.enqueue(new Callback<OAuthToken>() {
@@ -188,6 +191,8 @@ public class SecondActivitymodded extends AppCompatActivity
                         Expiresin = response.body().getExpiresIn();
                         Refreshtoken = response.body().getRefreshToken();
                         ExpiryTime = System.currentTimeMillis() + (Expiresin * 1000);
+                        partyID = response.body().getPartyId();
+
 
                         saveData();
 
@@ -218,7 +223,7 @@ public class SecondActivitymodded extends AppCompatActivity
     public void  saveData(){
 
         SharedPreferences.Editor sharedPref = getSharedPreferences("authInfo", Context.MODE_PRIVATE).edit();
-        sharedPref.putString("AuthCode", AUTHORIZATION_CODE);
+        sharedPref.putString("AuthCode", code);
         sharedPref.putString("secCode", Authcode);
         sharedPref.putString("refresh", Refreshtoken);
         sharedPref.putLong("expiry", ExpiryTime);
@@ -228,7 +233,7 @@ public class SecondActivitymodded extends AppCompatActivity
 
     public void loadData(){
         SharedPreferences sharedPref = getSharedPreferences("authInfo",Context.MODE_PRIVATE);
-        AUTHORIZATION_CODE = sharedPref.getString("AuthCode", "");
+        code = sharedPref.getString("AuthCode", "");
         Authcode = sharedPref.getString("secCode", "");
         Refreshtoken = sharedPref.getString("refresh","");
         ExpiryTime = sharedPref.getLong("expiry",0);
@@ -274,6 +279,7 @@ BillFragment billfragment = null;
 FoodFragment foodfragment = null;
 MiscFragment miscfragment = null;
 TransportFragment transportfragment = null;
+GenerateQR generatefragment = null;
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
@@ -296,7 +302,13 @@ TransportFragment transportfragment = null;
             FragmentManager manager = getSupportFragmentManager();
             manager.beginTransaction().replace(R.id.drawer_layout, transportfragment, transportfragment.getTag()).addToBackStack(null).commit();
 
-        } else if (id == R.id.nav_logout) {
+        }else if (id == R.id.generate) {
+            generatefragment = new GenerateQR();
+            FragmentManager manager = getSupportFragmentManager();
+            manager.beginTransaction().replace(R.id.drawer_layout, generatefragment, generatefragment.getTag()).addToBackStack(null).commit();
+
+        }
+        else if (id == R.id.nav_logout) {
             Logout();
         }
         /*if (fragment != null) {

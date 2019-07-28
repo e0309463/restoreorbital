@@ -28,11 +28,12 @@ public class Oauth extends AppCompatActivity {
         Uri uri = getIntent().getData();
 
        if (uri != null && uri.toString().startsWith(redirectUri)){
-//            String code = uri.getQueryParameter("code");
+            String code = uri.getQueryParameter("code");
+
 //
 //
 //
-            Toast.makeText(this,"yay!", Toast.LENGTH_SHORT).show();
+          Toast.makeText(this,"asdas", Toast.LENGTH_LONG).show();
         }
     }
 }
