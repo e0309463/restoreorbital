@@ -6,13 +6,13 @@ import com.google.gson.annotations.SerializedName;
 public class OAuthToken {
     @SerializedName("access_token")
     @Expose
-    private String accessToken;
+    private String access_token;
     @SerializedName("expires_in")
     @Expose
     private Long expiresIn;
     @SerializedName("token_type")
     @Expose
-    private String tokenType;
+    private String token_type;
     @SerializedName("refresh_token")
     @Expose
     private String refreshToken;
@@ -21,11 +21,11 @@ public class OAuthToken {
     private String partyId;
 
     public String getAccessToken() {
-        return accessToken;
+        return access_token;
     }
 
     public void setAccessToken(String accessToken) {
-        this.accessToken = accessToken;
+        this.access_token = accessToken;
     }
 
     public Long getExpiresIn() {
@@ -37,11 +37,11 @@ public class OAuthToken {
     }
 
     public String getTokenType() {
-        return tokenType;
+        return token_type;
     }
 
     public void setTokenType(String tokenType) {
-        this.tokenType = tokenType;
+        this.token_type = tokenType;
     }
 
     public String getRefreshToken() {

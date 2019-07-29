@@ -10,7 +10,6 @@ import retrofit2.http.GET;
 
 public class OAuthServer {
     private static final String siteURL = "https://www.dbs.com/sandbox/api/sg/v1";
-    private static String code = SecondActivitymodded.Authcode;
 
     public static OAuthServerIntface oAuthServerIntface = null;
 
@@ -42,8 +41,8 @@ public class OAuthServer {
         Call<OAuthToken> getAccessToken(
                 @Field("Authorization") String Authorization,
                 @Field("code") String code,
-                @Field("redirect_uri") String redirect_uri,
-                @Field("grant_type") String grant_type
+                @Field("redirect_uri") String redirect_uri
+                //@Field("grant_type") String grant_type
 
         );
 

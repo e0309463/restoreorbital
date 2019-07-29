@@ -52,6 +52,7 @@ public class SecondActivitymodded extends AppCompatActivity
     private PieDataSet dataSet;
     private PieData data;
     private Button syncBtn;
+    private Button scanReceipt;
     private TextView headerName;
     public static TextView headerEmail;
     static float billsExpend;
@@ -77,8 +78,8 @@ public class SecondActivitymodded extends AppCompatActivity
     private static final String grant_type = "token";
 
     //Response
-    static String Authcode;
-    static String Tokentype;
+    static String access_token;
+    static String token_type;
     static String Refreshtoken, partyID;
     static Long Expiresin, ExpiryTime;
 
@@ -93,6 +94,7 @@ public class SecondActivitymodded extends AppCompatActivity
         progressDialog = new ProgressDialog(this);
         firebaseAuth = FirebaseAuth.getInstance();
         syncBtn = (Button)findViewById(R.id.btn_sync);
+        scanReceipt = (Button)findViewById(R.id.scanReceipt);
         pieChart = findViewById(R.id.pieChart);
         pieChart.setDrawHoleEnabled(true);
         pieChart.setHoleColor(this.getResources().getColor(R.color.colorTransparent));
@@ -121,9 +123,15 @@ public class SecondActivitymodded extends AppCompatActivity
             @Override
             public void onClick(View v) {
                updateChart(pieChart);
-                //startActivity(new Intent(SecondActivitymodded.this,Oauth.class));
                 //Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.dbs.com/sandbox/api/sg/v1/oauth/authorize" + "?client_id=" + clientId + "&redirect_uri=" + redirectUri + "&scope=Read&response_type=code&state=0399"));
                 //startActivity(intent);
+            }
+        });
+        scanReceipt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(SecondActivitymodded.this,Oauth.class));
+
             }
         });
 
@@ -188,16 +196,14 @@ public class SecondActivitymodded extends AppCompatActivity
                 final Call<OAuthToken> accessTokenCall = oAuthServerIntface.getAccessToken(
                         Authorization,
                         code,
-                        redirect_uri,
-                        grant_type
-
+                        redirect_uri
                 );
 
                 accessTokenCall.enqueue(new Callback<OAuthToken>() {
                     @Override
                     public void onResponse(Call<OAuthToken> call, Response<OAuthToken> response) {
-                        Authcode = response.body().getAccessToken();
-                        Tokentype = response.body().getTokenType();
+                        access_token = response.body().getAccessToken();
+                        token_type = response.body().getTokenType();
                         Expiresin = response.body().getExpiresIn();
                         Refreshtoken = response.body().getRefreshToken();
                         ExpiryTime = System.currentTimeMillis() + (Expiresin * 1000);
@@ -234,7 +240,7 @@ public class SecondActivitymodded extends AppCompatActivity
 
         SharedPreferences.Editor sharedPref = getSharedPreferences("authInfo", Context.MODE_PRIVATE).edit();
         sharedPref.putString("AuthCode", code);
-        sharedPref.putString("secCode", Authcode);
+        sharedPref.putString("secCode", access_token);
         sharedPref.putString("refresh", Refreshtoken);
         sharedPref.putLong("expiry", ExpiryTime);
         sharedPref.apply();
@@ -244,7 +250,7 @@ public class SecondActivitymodded extends AppCompatActivity
     public void loadData(){
         SharedPreferences sharedPref = getSharedPreferences("authInfo",Context.MODE_PRIVATE);
         code = sharedPref.getString("AuthCode", "");
-        Authcode = sharedPref.getString("secCode", "");
+        access_token = sharedPref.getString("secCode", "");
         Refreshtoken = sharedPref.getString("refresh","");
         ExpiryTime = sharedPref.getLong("expiry",0);
 
