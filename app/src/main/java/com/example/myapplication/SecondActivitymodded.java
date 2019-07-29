@@ -59,6 +59,8 @@ public class SecondActivitymodded extends AppCompatActivity
     static float miscExpend;
     static float foodExpend;
     private Button budgetAllocation;
+    private Button manualAdd;
+
     private String clientId = "dd35d1dd-1c3a-4233-b25a-6ee6c5e9a70c";
     private String clientSecret = "57ac89db-ea47-4fc4-a122-0295063fd211";
     private String redirectUri = "http://www.example.com/restoreorbital111";
@@ -90,7 +92,7 @@ public class SecondActivitymodded extends AppCompatActivity
         setTitle("RESTORE");
         progressDialog = new ProgressDialog(this);
         firebaseAuth = FirebaseAuth.getInstance();
-        syncBtn = (Button)findViewById(R.id.syncBtn);
+        //syncBtn = (Button)findViewById(R.id.syncBtn);
         pieChart = findViewById(R.id.pieChart);
         pieChart.setDrawHoleEnabled(true);
         pieChart.setHoleColor(this.getResources().getColor(R.color.colorTransparent));
@@ -103,19 +105,27 @@ public class SecondActivitymodded extends AppCompatActivity
 
             }
         });
+        manualAdd = (Button)findViewById(R.id.manualInput);
+        manualAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(SecondActivitymodded.this, ManualAdd.class));
+
+            }
+        });
         /**
          * Updates the receipt history and the pie chart when the user clicks the sync button.
          * Currently using a randomiser to randomly generate the values for each category.
          */
-        syncBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //updateChart(pieChart);
+       // syncBtn.setOnClickListener(new View.OnClickListener() {
+           // @Override
+           // public void onClick(View v) {
+               //updateChart(pieChart);
                 //startActivity(new Intent(SecondActivitymodded.this,Oauth.class));
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.dbs.com/sandbox/api/sg/v1/oauth/authorize" + "?client_id=" + clientId + "&redirect_uri=" + redirectUri + "&scope=Read&response_type=code&state=0399"));
-                startActivity(intent);
-            }
-        });
+              //  Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.dbs.com/sandbox/api/sg/v1/oauth/authorize" + "?client_id=" + clientId + "&redirect_uri=" + redirectUri + "&scope=Read&response_type=code&state=0399"));
+               // startActivity(intent);
+          //  }
+     //   });
 
 
         Toolbar toolbar = findViewById(R.id.toolbar);

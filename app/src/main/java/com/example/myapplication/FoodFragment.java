@@ -43,7 +43,7 @@ public class FoodFragment extends Fragment {
     ArrayAdapter<String> adapter;
     User user;
     float billsExpend ;
-    public static float foodBudgetDollar = 0;
+    public static float foodBudgetDollar = 50;
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {

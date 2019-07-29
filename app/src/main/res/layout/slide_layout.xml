@@ -19,7 +19,7 @@
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.133"
+        app:layout_constraintVertical_bias="0.072"
         app:srcCompat="@drawable/caro1" />
 
     <TextView
@@ -45,7 +45,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/slide_image"
-        app:layout_constraintVertical_bias="0.19" />
+        app:layout_constraintVertical_bias="0.038" />
 
     <TextView
         android:id="@+id/slide_desc"
@@ -66,5 +66,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/slide_heading"
-        app:layout_constraintVertical_bias="0.387" />
+        app:layout_constraintVertical_bias="0.535" />
 </android.support.constraint.ConstraintLayout>
