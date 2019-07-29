@@ -43,10 +43,10 @@ public class ManualAdd extends Activity implements AdapterView.OnItemSelectedLis
 
         // Spinner Drop down elements
         List<String> categories = new ArrayList<String>();
-        categories.add("Bill");
-        categories.add("Food");
-        categories.add("Transport");
-        categories.add("Misc");
+        categories.add("bills");
+        categories.add("food");
+        categories.add("transport");
+        categories.add("misc");
 
         // Creating adapter for spinner
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, categories);
@@ -59,14 +59,13 @@ public class ManualAdd extends Activity implements AdapterView.OnItemSelectedLis
 
         user = new User();
         String Username = firebaseAuth.getInstance().getCurrentUser().getUid();
-
+        final String userid;
         if(Username != null) {
             userid = Username;
         }
         else{
             userid = "-";
         }
-        reff = FirebaseDatabase.getInstance().getReference();
 
 
         date = (EditText)findViewById(R.id.etDate);
@@ -74,6 +73,7 @@ public class ManualAdd extends Activity implements AdapterView.OnItemSelectedLis
         price = (EditText)findViewById(R.id.etPrice);
         submit = (Button)findViewById(R.id.buttonSubmit);
         btnBack = (ImageButton)findViewById(R.id.btnBack10);
+        reff = FirebaseDatabase.getInstance().getReference();
 
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,11 +83,11 @@ public class ManualAdd extends Activity implements AdapterView.OnItemSelectedLis
 
                 }
                 else {
-                    user.setDate(date.getText().toString());
-                    user.setCategory(spinner.getSelectedItem().toString());
-                    user.setProductName(name.getText().toString());
-                    user.setPrice(price.getText().toString());
-                    reff.child(userid).child(spinner.getSelectedItem().toString()).child(name.getText().toString()).setValue(user);
+                    user.setDate(date.getText().toString().trim());
+                    user.setCategory(spinner.getSelectedItem().toString().trim());
+                    user.setProductName(name.getText().toString().trim());
+                    user.setPrice("$"+price.getText().toString().trim());
+                    reff.child(userid).child(spinner.getSelectedItem().toString().trim()).child(name.getText().toString().trim()).setValue(user);
                     Toast.makeText(getApplicationContext(),"Manual entry successful!", Toast.LENGTH_SHORT).show();
 
                 }

@@ -92,7 +92,7 @@ public class SecondActivitymodded extends AppCompatActivity
         setTitle("RESTORE");
         progressDialog = new ProgressDialog(this);
         firebaseAuth = FirebaseAuth.getInstance();
-        //syncBtn = (Button)findViewById(R.id.syncBtn);
+        syncBtn = (Button)findViewById(R.id.btn_sync);
         pieChart = findViewById(R.id.pieChart);
         pieChart.setDrawHoleEnabled(true);
         pieChart.setHoleColor(this.getResources().getColor(R.color.colorTransparent));
@@ -117,15 +117,15 @@ public class SecondActivitymodded extends AppCompatActivity
          * Updates the receipt history and the pie chart when the user clicks the sync button.
          * Currently using a randomiser to randomly generate the values for each category.
          */
-       // syncBtn.setOnClickListener(new View.OnClickListener() {
-           // @Override
-           // public void onClick(View v) {
-               //updateChart(pieChart);
+        syncBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               updateChart(pieChart);
                 //startActivity(new Intent(SecondActivitymodded.this,Oauth.class));
-              //  Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.dbs.com/sandbox/api/sg/v1/oauth/authorize" + "?client_id=" + clientId + "&redirect_uri=" + redirectUri + "&scope=Read&response_type=code&state=0399"));
-               // startActivity(intent);
-          //  }
-     //   });
+                //Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.dbs.com/sandbox/api/sg/v1/oauth/authorize" + "?client_id=" + clientId + "&redirect_uri=" + redirectUri + "&scope=Read&response_type=code&state=0399"));
+                //startActivity(intent);
+            }
+        });
 
 
         Toolbar toolbar = findViewById(R.id.toolbar);

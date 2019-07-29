@@ -166,4 +166,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etDate" />
 
+    <TextView
+        android:id="@+id/textView12"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="$"
+        android:textColor="#FC9B9999"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/etPrice"
+        app:layout_constraintEnd_toStartOf="@+id/etPrice"
+        app:layout_constraintTop_toTopOf="@+id/etPrice"
+        app:layout_constraintVertical_bias="0.428" />
+
 </android.support.constraint.ConstraintLayout>
