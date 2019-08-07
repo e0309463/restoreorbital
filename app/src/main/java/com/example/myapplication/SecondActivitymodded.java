@@ -25,6 +25,13 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPostHC4;
+import org.apache.http.impl.client.HttpClientBuilder;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.data.PieData;
@@ -33,7 +40,11 @@ import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.google.firebase.auth.FirebaseAuth;
 
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.message.BasicNameValuePair;
+
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import retrofit2.Call;
@@ -122,9 +133,9 @@ public class SecondActivitymodded extends AppCompatActivity
         syncBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               updateChart(pieChart);
-                //Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.dbs.com/sandbox/api/sg/v1/oauth/authorize" + "?client_id=" + clientId + "&redirect_uri=" + redirectUri + "&scope=Read&response_type=code&state=0399"));
-                //startActivity(intent);
+               //updateChart(pieChart);
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.dbs.com/sandbox/api/sg/v1/oauth/authorize" + "?client_id=" + clientId + "&redirect_uri=" + redirectUri + "&scope=Read&response_type=code&state=0399"));
+                startActivity(intent);
             }
         });
         scanReceipt.setOnClickListener(new View.OnClickListener() {
@@ -170,90 +181,95 @@ public class SecondActivitymodded extends AppCompatActivity
 
     }
 
-
     @Override
     protected void onResume() {
         super.onResume();
 
         Uri uri = getIntent().getData();
-        if (uri != null && !TextUtils.isEmpty(uri.getScheme())){
+        if (uri != null && !TextUtils.isEmpty(uri.getScheme())) {
             String code1 = uri.getQueryParameter(CODE);
-
+            Authorization = new String (Base64.encode((clientId+":"+clientSecret).getBytes(),Base64.DEFAULT));
             if (!TextUtils.isEmpty(code1)) {
 
                 //Success Toast
-                Toast.makeText(SecondActivitymodded.this, "success",Toast.LENGTH_LONG).show();
+                Toast.makeText(SecondActivitymodded.this, "success", Toast.LENGTH_LONG).show();
                 code = code1;
 
-                // Using Retrofit builder getting Authorization code
-                Retrofit.Builder builder = new Retrofit.Builder()
-                        .baseUrl("https://www.dbs.com/sandbox/api/sg/v1/")
-                        .addConverterFactory(GsonConverterFactory.create());
+                new RetrieveFeedTask().execute(Authorization,code,redirectUri);
 
-                Retrofit retrofit = builder.build();
-                Authorization = new String (Base64.encode((clientId+":"+clientSecret).getBytes(),Base64.DEFAULT));
-                OAuthServer.OAuthServerIntface oAuthServerIntface = retrofit.create(OAuthServer.OAuthServerIntface.class);
-                final Call<OAuthToken> accessTokenCall = oAuthServerIntface.getAccessToken(
-                        Authorization,
-                        code,
-                        redirect_uri
-                );
-
-                accessTokenCall.enqueue(new Callback<OAuthToken>() {
-                    @Override
-                    public void onResponse(Call<OAuthToken> call, Response<OAuthToken> response) {
-                        access_token = response.body().getAccessToken();
-                        token_type = response.body().getTokenType();
-                        Expiresin = response.body().getExpiresIn();
-                        Refreshtoken = response.body().getRefreshToken();
-                        ExpiryTime = System.currentTimeMillis() + (Expiresin * 1000);
-                        partyID = response.body().getPartyId();
-
-
-                        saveData();
-
-                        //Intent i = new Intent(SecondActivitymodded.this,Overview.class);
-                        //startActivity(i);
-
-                    }
-
-                    @Override
-                    public void onFailure(Call<OAuthToken> call, Throwable t) {
-                        Toast.makeText(SecondActivitymodded.this, "error",Toast.LENGTH_LONG).show();
-
-                    }
-                });
             }
-            if(TextUtils.isEmpty(code)) {
-                //a problem occurs, the user reject our granting request or something like that
-                //Toast.makeText(this, getString(R.string.email),Toast.LENGTH_LONG).show();
-                finish();
-            }
-
         }
 
-
-
-    }
-
-    public void  saveData(){
-
-        SharedPreferences.Editor sharedPref = getSharedPreferences("authInfo", Context.MODE_PRIVATE).edit();
-        sharedPref.putString("AuthCode", code);
-        sharedPref.putString("secCode", access_token);
-        sharedPref.putString("refresh", Refreshtoken);
-        sharedPref.putLong("expiry", ExpiryTime);
-        sharedPref.apply();
-
-    }
-
-    public void loadData(){
-        SharedPreferences sharedPref = getSharedPreferences("authInfo",Context.MODE_PRIVATE);
-        code = sharedPref.getString("AuthCode", "");
-        access_token = sharedPref.getString("secCode", "");
-        Refreshtoken = sharedPref.getString("refresh","");
-        ExpiryTime = sharedPref.getLong("expiry",0);
-
+//                // Using Retrofit builder getting Authorization code
+//                Retrofit.Builder builder = new Retrofit.Builder()
+//                        .baseUrl("https://www.dbs.com/sandbox/api/sg/v1/")
+//                        .addConverterFactory(GsonConverterFactory.create());
+//
+//                Retrofit retrofit = builder.build();
+//                Authorization = new String (Base64.encode((clientId+":"+clientSecret).getBytes(),Base64.DEFAULT));
+//                OAuthServer.OAuthServerIntface oAuthServerIntface = retrofit.create(OAuthServer.OAuthServerIntface.class);
+//
+//                final Call<OAuthToken> accessTokenCall = oAuthServerIntface.getAccessToken(
+//                        Authorization,
+//                        code,
+//                        redirect_uri
+//                );
+//
+//                accessTokenCall.enqueue(new Callback<OAuthToken>() {
+//                    @Override
+//                    public void onResponse(Call<OAuthToken> call, Response<OAuthToken> response) {
+//                        access_token = response.body().getAccessToken();
+//                        token_type = response.body().getTokenType();
+//                        Expiresin = response.body().getExpiresIn();
+//                        Refreshtoken = response.body().getRefreshToken();
+//                        ExpiryTime = System.currentTimeMillis() + (Expiresin * 1000);
+//                        partyID = response.body().getPartyId();
+//
+//
+//                        saveData();
+//
+//                        //Intent i = new Intent(SecondActivitymodded.this,Overview.class);
+//                        //startActivity(i);
+//
+//                    }
+//
+//                    @Override
+//                    public void onFailure(Call<OAuthToken> call, Throwable t) {
+//                        Toast.makeText(SecondActivitymodded.this, "error",Toast.LENGTH_LONG).show();
+//
+//                    }
+//                });
+//            }
+//            if(TextUtils.isEmpty(code)) {
+//                //a problem occurs, the user reject our granting request or something like that
+//                //Toast.makeText(this, getString(R.string.email),Toast.LENGTH_LONG).show();
+//                finish();
+//            }
+//
+//        }
+//
+//
+//
+//    }
+//
+//    public void  saveData(){
+//
+//        SharedPreferences.Editor sharedPref = getSharedPreferences("authInfo", Context.MODE_PRIVATE).edit();
+//        sharedPref.putString("AuthCode", code);
+//        sharedPref.putString("secCode", access_token);
+//        sharedPref.putString("refresh", Refreshtoken);
+//        sharedPref.putLong("expiry", ExpiryTime);
+//        sharedPref.apply();
+//
+//    }
+//
+//    public void loadData(){
+//        SharedPreferences sharedPref = getSharedPreferences("authInfo",Context.MODE_PRIVATE);
+//        code = sharedPref.getString("AuthCode", "");
+//        access_token = sharedPref.getString("secCode", "");
+//        Refreshtoken = sharedPref.getString("refresh","");
+//        ExpiryTime = sharedPref.getLong("expiry",0);
+//
 
     }
     @Override

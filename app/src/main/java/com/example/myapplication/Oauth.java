@@ -156,9 +156,23 @@ public class Oauth extends Activity implements AdapterView.OnItemSelectedListene
             txtView.setTextSize(24);
             txtView.setText(txt);
             String[] s = txt.split("\n");
-                price = s[2].substring(s[2].length() - 5);
-                date = s[1].substring(5);
-                productname = s[0];
+            for(int i=0; i < 3; i++){
+                if(s[i].startsWith("Price:")){
+                    price = s[i].substring(7);
+                }
+                else if (s[i].startsWith("Date:")){
+                    date = s[i].substring(6);
+                }
+                else {
+                    productname = s[i];
+                }
+            }
+//                     String[] s = txt.split("\n");
+//            if(s[2] != null && s[1] != null && s[3] != null) {
+//                price = s[2].substring(s[2].length() - 5);
+//                date = s[1].substring(5);
+//                productname = s[0];
+//            }
 
         }
     }
