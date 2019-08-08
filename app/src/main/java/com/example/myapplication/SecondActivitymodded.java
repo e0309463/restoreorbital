@@ -195,7 +195,7 @@ public class SecondActivitymodded extends AppCompatActivity
                 Toast.makeText(SecondActivitymodded.this, "success", Toast.LENGTH_LONG).show();
                 code = code1;
 
-                new RetrieveFeedTask().execute(Authorization,code,redirectUri);
+                new RetrieveFeedTask().execute(Authorization,code,redirectUri,clientId);
 
             }
         }
