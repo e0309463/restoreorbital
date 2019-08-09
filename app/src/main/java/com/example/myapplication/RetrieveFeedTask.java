@@ -1,8 +1,10 @@
 package com.example.myapplication;
 
 import android.os.AsyncTask;
+import android.util.Base64;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
@@ -61,7 +63,7 @@ class RetrieveFeedTask extends AsyncTask<String, Void,String> {
             HttpResponse response = client.execute(request);
             String json_string = EntityUtils.toString(response.getEntity());
             JSONObject json = new JSONObject(json_string);
-            String partyID = json.getString("party_id");
+           // String partyID = json.getString("party_id");
             String accessToken = json.getString("access_token");
             String clientID = urls[3];
 
@@ -93,12 +95,19 @@ class RetrieveFeedTask extends AsyncTask<String, Void,String> {
             JSONObject json2 = new JSONObject(json_string2);
 */
 
-String url = "https://www.dbs.com/sandbox/api/sg/v1/transactions/categories?partyId=";
-url += "1537661443";
-url += "&type=all";
-            HttpGetHC4 request2 = new HttpGetHC4(url);
+//String url = "https://www.dbs.com/sandbox/api/sg/v1/transactions/categories?partyId=";
+String decoded = JWTUtils.decoded(accessToken);
+JSONObject dec = new JSONObject(decoded);
+String partyID = dec.getString("cin");
+String partyIDdecoded = new String (Base64.decode((partyID).getBytes(),Base64.DEFAULT)).replaceAll("\n", "");
+//url += partyID;
+//url += "&type=all";
+            URIBuilder builder = new URIBuilder("https://www.dbs.com/sandbox/api/sg/v1/transactions/categories");
+            builder.setParameter("partyId", partyID).setParameter("type", "standard");
+            HttpGetHC4 request2 = new HttpGetHC4(builder.build());
+           // HttpGetHC4 request2 = new HttpGetHC4(url);
 
-//            request2.setHeader("Content-Type", "application/json");
+            request2.setHeader("Content-Type", "application/json");
             request2.setHeader("clientId", clientID);
             request2.setHeader("accessToken",accessToken);
             HttpResponse response2 = client.execute(request2);
