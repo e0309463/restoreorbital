@@ -12,6 +12,7 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGetHC4;
 import org.apache.http.client.methods.HttpPostHC4;
+import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.params.BasicHttpParams;
@@ -26,7 +27,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.HttpRetryException;
 import java.net.HttpURLConnection;
+import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -61,15 +64,41 @@ class RetrieveFeedTask extends AsyncTask<String, Void,String> {
             String accessToken = json.getString("access_token");
             String clientID = urls[3];
 
-            HttpGetHC4 request2 = new HttpGetHC4("https://www.dbs.com/sandbox/api/sg/v1/transactions/categories");
-            HttpParams params = new BasicHttpParams();
-            params.setParameter("partyId", partyID);
-            params.setParameter("type", "Standard");
-            request2.setParams(params);
-           // request2.setHeader("partyId",partyID);
+            //HttpGetHC4 request2 = new HttpGetHC4("https://www.dbs.com/sandbox/api/sg/v1/transactions/categories");
+            /*URIBuilder builder = new URIBuilder("https://www.dbs.com/sandbox/api/sg/v1/transactions/categories");
+            builder.setParameter("partyID", partyID).setParameter("type", "standard");
+            HttpGetHC4 request2 = new HttpGetHC4(builder.build());
+
+           // HttpParams params = new BasicHttpParams();
+           // params.setParameter("partyId", partyID);
+           // params.setParameter("type", "Standard");
+           // request2.setParams(params);
+            request2.setHeader("Content-Type","application/json");
             request2.setHeader("clientId",clientID);
             request2.setHeader("accessToken", accessToken);
 
+            HttpResponse response2 = client.execute(request2);
+            String json_string2 = EntityUtils.toString(response2.getEntity());
+            JSONObject json2 = new JSONObject(json_string2);*/
+
+
+/*
+            HttpGetHC4 request2 = new HttpGetHC4("https://www.dbs.com/sandbox/api/sg/v1/payments/billingParties");
+            request2.setHeader("clientId", clientID);
+            request2.setHeader("accessToken",accessToken);
+            request2.setHeader("uuid","Request123");
+            HttpResponse response2 = client.execute(request2);
+            String json_string2 = EntityUtils.toString(response2.getEntity());
+            JSONObject json2 = new JSONObject(json_string2);
+*/
+
+String url = "https://www.dbs.com/sandbox/api/sg/v1/parties/";
+url += partyID;
+url += "/limits";
+            HttpGetHC4 request2 = new HttpGetHC4(url);
+
+            request2.setHeader("clientId", clientID);
+            request2.setHeader("accessToken",accessToken);
             HttpResponse response2 = client.execute(request2);
             String json_string2 = EntityUtils.toString(response2.getEntity());
             JSONObject json2 = new JSONObject(json_string2);
