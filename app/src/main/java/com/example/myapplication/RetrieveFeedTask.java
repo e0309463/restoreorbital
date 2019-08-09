@@ -3,6 +3,7 @@ package com.example.myapplication;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import org.apache.http.HttpEntity;
@@ -92,11 +93,12 @@ class RetrieveFeedTask extends AsyncTask<String, Void,String> {
             JSONObject json2 = new JSONObject(json_string2);
 */
 
-String url = "https://www.dbs.com/sandbox/api/sg/v1/parties/";
-url += partyID;
-url += "/limits";
+String url = "https://www.dbs.com/sandbox/api/sg/v1/transactions/categories?partyId=";
+url += "1537661443";
+url += "&type=all";
             HttpGetHC4 request2 = new HttpGetHC4(url);
 
+//            request2.setHeader("Content-Type", "application/json");
             request2.setHeader("clientId", clientID);
             request2.setHeader("accessToken",accessToken);
             HttpResponse response2 = client.execute(request2);
